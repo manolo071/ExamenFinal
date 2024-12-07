@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Carrito de Compras</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+
+    <h1>Tu Carrito</h1>
+    <ul id="cart-items"></ul>
+    <button id="checkout">Pagar</button>
+
+    <!-- Contenedor para la imagen del QR -->
+    <div style="margin-top: 20px;">
+        <h3>Escanea este código QR para ver tu carrito</h3>
+        <img src="images/QR.jpeg" alt="Código QR" style="width: 500px; height: 800px;">
+    </div>
+
+    <script>
+    // Función para obtener el carrito
+    function getCart() {
+        let cart = localStorage.getItem('cart');
+        return cart ? JSON.parse(cart) : [];
+    }
+
+    // Función para mostrar los productos del carrito
+    function displayCart() {
+        let cart = getCart();
+        let cartItems = document.getElementById('cart-items');
+
+        // Limpiar el carrito actual
+        cartItems.innerHTML = '';
+
+        // Mostrar los productos en el carrito
+        cart.forEach(product => {
+            let li = document.createElement('li');
+            li.textContent = `${product.name} - $${product.price} x ${product.quantity}`;
+            cartItems.appendChild(li);
+        });
+    }
+
+    // Mostrar el carrito al cargar la página
+    displayCart();
+
+    // Vaciar el carrito al hacer clic en "Pagar"
+    document.getElementById('checkout').addEventListener('click', function() {
+        localStorage.removeItem('cart'); // Eliminar el carrito
+        alert('Gracias por tu compra!');
+        displayCart(); // Actualizar la vista del carrito
+    });
+    </script>
+
+</body>
+</html>
